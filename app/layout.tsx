@@ -30,6 +30,14 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "Al-Hussainia Islamic Public School",
+    images: [
+      {
+        url: "https://alhussainia.vercel.app/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Al-Hussainia Islamic Public School",
+      },
+    ],
     description:
       "Quality education with Islamic values in Shahdadpur, Sindh, Pakistan.",
     type: "website",
