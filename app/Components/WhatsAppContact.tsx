@@ -12,7 +12,7 @@ import {
   Zap,
 } from "lucide-react";
 
-const WHATSAPP_NUMBER = "923103104364";
+const WHATSAPP_NUMBER = "923123030022";
 
 type FormFieldEvent = React.ChangeEvent<
   HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
