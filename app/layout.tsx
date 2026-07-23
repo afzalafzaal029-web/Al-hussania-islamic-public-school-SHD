@@ -21,6 +21,7 @@ export const metadata: Metadata = {
   },
   description:
     "Al-Hussainia Islamic Public School provides quality modern education rooted in Islamic values in Shahdadpur, Sindh, Pakistan. Admissions open.",
+      metadataBase: new URL("https://al-hussainia-islamic-school.vercel.app"), // Replace with your actual domain
   keywords: [
     "Islamic school Sindh",
     "Al-Hussainia school",
@@ -32,7 +33,7 @@ export const metadata: Metadata = {
     title: "Al-Hussainia Islamic Public School",
     images: [
       {
-        url: "https://alhussainia.vercel.app/og-image.png",
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
         alt: "Al-Hussainia Islamic Public School",
