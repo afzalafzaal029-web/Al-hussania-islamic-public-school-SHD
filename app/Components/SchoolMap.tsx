@@ -78,6 +78,7 @@ export default function SchoolMap() {
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             title="Al-Hussania Islamic Public School Location Map"
+            suppressHydrationWarning={true}
           ></iframe>
         </div>
 

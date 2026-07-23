@@ -37,7 +37,7 @@ const SLIDES = [
   },
   {
     id: 4,
-    src: "/computerAcademy.jpg",
+    src: "/computerAcademy.png",
     alt: "Al-Hussainia Computer Academy & Coaching Center, students learning computer skills",
     tagline: "Skills for the",
     tagline2: "Digital Future",

@@ -1,15 +1,7 @@
 "use client";
-// components/TestimonialsSection.tsx
-// ─────────────────────────────────────────────────────────
-// SEO: Uses semantic <blockquote>, <cite>, schema.org
-//      Review JSON-LD injected via <script> tag.
-// Responsive: 1 col mobile → 2 col tablet → 3 col desktop
-// Carousel: Auto-scrolls on mobile, static grid on desktop.
-// ─────────────────────────────────────────────────────────
-import { useState, useEffect, useRef } from "react";
-import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 
-// ── Testimonial data ──────────────────────────────────────
+import { Star, Quote } from "lucide-react";
+
 const TESTIMONIALS = [
   {
     id: 1,
@@ -23,7 +15,7 @@ const TESTIMONIALS = [
   },
   {
     id: 2,
-    name: "Muhammad Rizwan Idrees salongi",
+    name: "Muhammad Rizwan Idrees Salongi",
     role: "Parent — Class 3rd & KG",
     avatar: "RI",
     color: "bg-emerald-700",
@@ -43,7 +35,7 @@ const TESTIMONIALS = [
   },
   {
     id: 4,
-    name: "haris Talpur",
+    name: "Haris Talpur",
     role: "Parent — Class 2nd & 1st",
     avatar: "HT",
     color: "bg-purple-700",
@@ -53,7 +45,7 @@ const TESTIMONIALS = [
   },
   {
     id: 5,
-    name: "Zain-ul-Abideen",
+    name: "Rana Ishfaq Rajput",
     role: "Student — Computer Academy",
     avatar: "ZA",
     color: "bg-rose-700",
@@ -89,100 +81,53 @@ function Stars({ count }: { count: number }) {
   );
 }
 
-// ── Single testimonial card ───────────────────────────────
 function TestimonialCard({ t }: { t: (typeof TESTIMONIALS)[0] }) {
   return (
     <blockquote
-      className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100
-                 flex flex-col gap-4 h-full
-                 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+      className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100 flex flex-col gap-5 h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
       itemScope
       itemType="https://schema.org/Review"
     >
-      {/* Quote icon */}
-      <div className="w-9 h-9 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
-        <Quote size={16} className="text-blue-700 fill-blue-100" />
+      <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
+        <Quote size={18} className="text-blue-800 fill-blue-100" />
       </div>
 
-      {/* Stars */}
-      <div
-        itemProp="reviewRating"
-        itemScope
-        itemType="https://schema.org/Rating"
-      >
+      <div itemProp="reviewRating" itemScope itemType="https://schema.org/Rating">
         <meta itemProp="ratingValue" content={String(t.rating)} />
         <meta itemProp="bestRating" content="5" />
         <Stars count={t.rating} />
       </div>
 
-      {/* Quote text */}
-      <p
-        className="text-gray-600 text-sm leading-relaxed flex-1 italic"
-        itemProp="reviewBody"
-      >
+      <p className="text-gray-600 text-sm md:text-base leading-relaxed flex-1 italic" itemProp="reviewBody">
         "{t.quote}"
       </p>
 
-      {/* Divider */}
-      <div className="h-px bg-white" />
+      <div className="h-px bg-gray-50 w-full" />
 
-      {/* Person */}
-      <footer className="flex items-center gap-3">
-        {/* Avatar with initials */}
+      <footer className="flex items-center gap-3.5">
         <div
-          className={`w-10 h-10 rounded-full ${t.color} flex items-center justify-center
-                      text-white text-xs font-bold flex-shrink-0 select-none`}
+          className={`w-11 h-11 rounded-full ${t.color} flex items-center justify-center text-white text-sm font-extrabold flex-shrink-0 select-none shadow-inner`}
           aria-hidden="true"
         >
           {t.avatar}
         </div>
-        <div>
+        <div className="flex flex-col">
           <cite
-            className="not-italic font-bold text-sm text-gray-900 block"
+            className="not-italic font-bold text-sm md:text-base text-gray-900 block leading-tight"
             itemProp="author"
             itemScope
             itemType="https://schema.org/Person"
           >
             <span itemProp="name">{t.name}</span>
           </cite>
-          <span className="text-xs text-blue-600 font-medium">{t.role}</span>
+          <span className="text-xs md:text-sm text-blue-700 font-semibold mt-0.5">{t.role}</span>
         </div>
       </footer>
     </blockquote>
   );
 }
 
-// ── Main section ──────────────────────────────────────────
 export default function TestimonialsSection() {
-  const [current, setCurrent] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  // Detect mobile/tablet vs desktop
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 1024);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-
-  // Auto-advance carousel (mobile/tablet only)
-  useEffect(() => {
-    if (!isMobile) return;
-    timerRef.current = setTimeout(
-      () => setCurrent((c) => (c + 1) % TESTIMONIALS.length),
-      4000,
-    );
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, [current, isMobile]);
-
-  const prev = () =>
-    setCurrent((c) => (c - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
-  const next = () => setCurrent((c) => (c + 1) % TESTIMONIALS.length);
-
-  // ── JSON-LD schema for SEO ──────────────────────────────
   const schema = {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
@@ -214,128 +159,62 @@ export default function TestimonialsSection() {
   return (
     <section
       aria-labelledby="testimonials-heading"
-      className="py-20 bg-gray-50"
+      className="py-20 md:py-28 bg-[#F8FAFC] overflow-hidden"
       itemScope
       itemType="https://schema.org/EducationalOrganization"
     >
-      {/* JSON-LD structured data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* ── Section heading ── */}
-        <div className="text-center mb-14">
-          {/* SEO: breadcrumb-style label */}
-          <p className="text-amber-600 text-xs font-bold uppercase tracking-widest mb-3">
+        <div className="text-center mb-12 md:mb-16">
+          <p className="text-amber-600 text-xs md:text-sm font-extrabold uppercase tracking-[0.2em] mb-3">
             What Parents Say
           </p>
           <h2
             id="testimonials-heading"
-            className="text-3xl md:text-4xl font-extrabold text-blue-900 mb-3"
+            className="text-3xl md:text-5xl font-black text-blue-950 mb-4 tracking-tight"
           >
-            <i>Trusted by Families Across Shahdadpur</i>
+            Trusted by Families Across Sindh
           </h2>
-          <div className="w-20 h-1 bg-amber-400 mx-auto rounded-full mb-4" />
-          <p className="text-gray-500 max-w-xl mx-auto text-sm">
-            <i>
-              {" "}
-              Real words from the parents who trust Al-Hussainia Islamic Public
-              School with their children's future.
-            </i>
+          <div className="w-24 h-1.5 bg-amber-400 mx-auto rounded-full mb-6" />
+          <p className="text-gray-500 max-w-2xl mx-auto text-sm md:text-base font-medium">
+            Real words from the parents who trust Al-Hussainia Islamic Public School with their children's bright future and character building.
           </p>
 
-          {/* Aggregate rating display */}
-          <div
-            className="inline-flex items-center gap-2 mt-5 bg-white border border-gray-100
-                          shadow-sm px-5 py-2.5 rounded-full"
-          >
-            <div className="flex gap-0.5">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star
-                  key={i}
-                  size={14}
-                  className="text-amber-400 fill-amber-400"
-                />
-              ))}
-            </div>
-            <span className="text-sm font-bold text-gray-800">5.0</span>
-            <span className="text-xs text-gray-400">
-              — {TESTIMONIALS.length} parent reviews
+          <div className="inline-flex items-center gap-3 mt-6 bg-white border border-gray-200 shadow-sm px-6 py-3 rounded-full">
+            <Stars count={5} />
+            <span className="text-sm md:text-base font-black text-gray-900">5.0</span>
+            <span className="text-xs md:text-sm text-gray-500 font-medium">
+              — Based on {TESTIMONIALS.length}+ reviews
             </span>
           </div>
         </div>
 
-        {/* ── Desktop grid (lg+): show all 6 cards ── */}
-        <div className="hidden lg:grid grid-cols-3 gap-6">
+        {/* DOM Duplication Bug Fixed: Single container that becomes snap-scroll on mobile and grid on desktop */}
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:overflow-visible md:pb-0 scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
           {TESTIMONIALS.map((t) => (
-            <TestimonialCard key={t.id} t={t} />
+            <div 
+              key={t.id} 
+              className="min-w-[85vw] sm:min-w-[350px] snap-center md:min-w-0 md:w-auto h-full"
+            >
+              <TestimonialCard t={t} />
+            </div>
           ))}
         </div>
-
-        {/* ── Tablet (md): show 2 cards ── */}
-        <div className="hidden md:grid lg:hidden grid-cols-2 gap-6">
-          {TESTIMONIALS.slice(0, 4).map((t) => (
-            <TestimonialCard key={t.id} t={t} />
-          ))}
-        </div>
-
-        {/* ── Mobile carousel: 1 card at a time ── */}
-        <div className="md:hidden">
-          <div className="relative">
-            {/* Card */}
-            <div key={current} style={{ animation: "fadeIn 0.4s ease" }}>
-              <TestimonialCard t={TESTIMONIALS[current]} />
-            </div>
-
-            {/* Arrow buttons */}
-            <div className="flex items-center justify-between mt-6">
-              <button
-                onClick={prev}
-                aria-label="Previous testimonial"
-                className="w-10 h-10 rounded-full border border-gray-200 bg-white flex items-center
-                           justify-center text-gray-600 hover:bg-blue-900 hover:text-white
-                           hover:border-blue-900 transition-all shadow-sm"
-              >
-                <ChevronLeft size={18} />
-              </button>
-
-              {/* Dot indicators */}
-              <div className="flex gap-1.5">
-                {TESTIMONIALS.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setCurrent(i)}
-                    aria-label={`Go to testimonial ${i + 1}`}
-                    className={`rounded-full transition-all duration-300 ${
-                      i === current
-                        ? "w-5 h-2 bg-blue-900"
-                        : "w-2 h-2 bg-gray-300"
-                    }`}
-                  />
-                ))}
-              </div>
-
-              <button
-                onClick={next}
-                aria-label="Next testimonial"
-                className="w-10 h-10 rounded-full border border-gray-200 bg-white flex items-center
-                           justify-center text-gray-600 hover:bg-blue-900 hover:text-white
-                           hover:border-blue-900 transition-all shadow-sm"
-              >
-                <ChevronRight size={18} />
-              </button>
-            </div>
-          </div>
+        
+        {/* Mobile Swipe Hint */}
+        <div className="md:hidden text-center mt-2 flex items-center justify-center gap-2 text-gray-400 text-xs font-medium">
+          <span className="animate-pulse">←</span> Swipe to read more <span className="animate-pulse">→</span>
         </div>
       </div>
-
+      
+      {/* Utility class for hiding scrollbar in mobile view */}
       <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to   { opacity: 1; transform: translateY(0);    }
-        }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
     </section>
   );
