@@ -52,6 +52,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+      <meta name="google-site-verification" content="UNx2lKPtjcM6Yo4CM2BXFD5w4AnImv6dvlQ-IhsLS6A" />
+      </head>
       <body
         className={`${playfair.variable} ${lato.variable} min-h-screen flex flex-col bg-white text-gray-900 antialiased`}
       >
